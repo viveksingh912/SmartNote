@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState,useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
-
-function Signup() {
+import AlertContext from '../context/note/alert/alertContext';
+function Signup(props) {
+  const context = useContext(AlertContext);
+  let {setAlert}=context;
   const [content, setContent] = useState({ name: '', email: '', password: '', cpassword: '' });
   const history = useNavigate();
+  const {setProgress}=props;
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (content.password === content.cpassword) {
+      setProgress(40);
       const response = await fetch(`http://localhost:5000/api/auth/createuser`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
@@ -14,14 +18,17 @@ function Signup() {
         },
         body: JSON.stringify({ name: content.name, email: content.email, password: content.password }) // body data type must match "Content-Type" header
       });
+      setProgress(75);
       let data = await response.json();
       if (data.success) {
+        setAlert('sign up successful');
         localStorage.setItem('token', data.token);
         history('/')
       }
       else {
         alert('Invalid user email');
       }
+      setProgress(100);
     }
     else {
       alert("Password didn't match");

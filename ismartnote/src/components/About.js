@@ -1,6 +1,6 @@
 
 import React from 'react'
-import NoteContext from '../context/note/noteContext'
+// import NoteContext from '../context/note/noteContext'
 function About() {
    
     
