@@ -15,10 +15,11 @@ router.post(
     body("password", "Enter a valid password").isLength({ min: 5 }),
   ],
   async (req, res) => {
+    success=false;
     // if error occurs ,then return the error
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
     try {
       //check if user with the same email already exists in database
@@ -30,7 +31,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "sorry a user with this email arleady exists" });
+          .json({success, error: "sorry a user with this email arleady exists" });
       }
       // if everything is fine then add the user to database || fine means like email id is unique;
       else {
@@ -45,7 +46,8 @@ router.post(
           },
         };
         var token = jwt.sign(data, JWT_SECRET);
-        res.json({ token: token });
+        success=true;
+        res.json({success, token: token });
       }
     } catch (error) {
       // If something goes wrong then throw error
@@ -72,17 +74,18 @@ router.post(
     // checking if the entered email exists in our database
     let user = await User.findOne({ email });
     // If email doesn't exists  then returning the error
+    success=false;
     if (!user) {
       return res
         .status(400)
-        .json({ error: "plese login with the correct credentials" });
+        .json({success, error: "plese login with the correct credentials" });
     }
     // comparing the entered password with the database password
     let match = await bcrypt.compare(password, user.password);
     if (!match) {
       return res
         .status(400)
-        .json({ error: "plese login with the correct credentials" });
+        .json({success, error: "plese login with the correct credentials" });
     }
     // if password matches then returning the user in the form of json web token;
     const data = {
@@ -90,8 +93,9 @@ router.post(
         id: user.id,
       },
     };
+    success=true;
     var token = jwt.sign(data, JWT_SECRET);
-    res.json({ token: token });
+    res.json({success, token: token });
   }catch (error) {
     // If something goes wrong then throw error
     console.error(error.message);
@@ -101,10 +105,12 @@ router.post(
 );
 // Route-3 ,, getting loggedin user detail;
 router.post('/getuser',fetchuser, async (req,res)=>{
+  success=false;
 try {
   userId=req.user.id;
   const user= await User.findById(userId).select('-password');
-  res.send(user);
+  success=true;
+  res.send(success,user);
 } catch (error) {
   res.status(500).send(error);
 }

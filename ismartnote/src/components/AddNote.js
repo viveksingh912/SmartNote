@@ -5,8 +5,9 @@ function AddNote() {
   let { addNote } = context;
   const [note, setNote] = useState({ title: "", description: "", tag: "" });
   const handleClick = (e) => {
-    e.preventDefault();
+    e.preventDefault();// to avoid the reload of  the page
     addNote(note.title, note.description, note.tag);
+    setNote({title: "", description: "", tag: ""});
   };
   const onChange = (e) => {
     setNote({ ...note, [e.target.name]: e.target.value });
@@ -26,6 +27,7 @@ function AddNote() {
               id="title"
               name="title"
               onChange={onChange}
+              value={note.title}
               aria-describedby="emailHelp"
             />
           </div>
@@ -38,16 +40,25 @@ function AddNote() {
               className="form-control"
               id="description"
               name="description"
+              value={note.description}
               onChange={onChange}
             />
           </div>
-          <div className="mb-3 form-check">
-            <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-            <label className="form-check-label" htmlFor="exampleCheck1">
-              Check me out
+          <div className="mb-3">
+            <label htmlFor="tag" className="form-label">
+              Tag
             </label>
+            <input
+              type="text"
+              className="form-control"
+              id="tag"
+              value={note.tag}
+              name="tag"
+              onChange={onChange}
+            />
           </div>
-          <button type="submit" className="btn btn-primary" onClick={handleClick}>
+          
+          <button disabled={note.title.length<3|| note.description.length<5?true:false} type="submit" className="btn btn-primary" onClick={handleClick}>
             Submit
           </button>
         </form>
