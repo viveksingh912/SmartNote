@@ -19,8 +19,11 @@ function Login(props) {
         });
         setProgress(70);
         let data = await response.json();
+        
         if (data.success) {
             setAlert('Logged in Successfully');
+            console.log(data.name);
+            localStorage.setItem('name',data.name);
             localStorage.setItem('token', data.token);
             history('/');
         }

@@ -95,7 +95,7 @@ router.post(
     };
     success=true;
     var token = jwt.sign(data, JWT_SECRET);
-    res.json({success, token: token });
+    res.json({success, token: token,name:user.name });
   }catch (error) {
     // If something goes wrong then throw error
     console.error(error.message);

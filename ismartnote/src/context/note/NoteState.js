@@ -15,7 +15,6 @@ function NoteState(props) {
       }
     });
     let data = await response.json();
-    // console.log(data);
     setNotes(data);
 
   }

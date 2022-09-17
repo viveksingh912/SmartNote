@@ -6,6 +6,7 @@ export default function Navbar() {
   const history=useNavigate();
   let handleOut=()=>{
     localStorage.removeItem('token');
+    localStorage.removeItem('name');
     history('/login');
   }
   return (
@@ -28,7 +29,8 @@ export default function Navbar() {
            {!localStorage.getItem('token') ? <form className="d-flex" role="search">
               <Link type="button" to="/login" className="btn btn-sm btn-secondary mx-1">Login </Link>
               <Link type="button" to="/signup" className="btn btn-sm btn-secondary mx-1">Signup</Link>
-            </form>:<Link type="button" to="/login" onClick={handleOut} className="btn btn-sm btn-secondary mx-1">Logout</Link>}
+            </form>:<div><Link  to="/user"  className="btn btn-sm btn-secondary mx-3" ><i className="fa-solid fa-user"></i></Link>
+            <Link type="button" to="/login" onClick={handleOut} className="btn btn-sm btn-secondary mx-1">Logout</Link></div>}
           </div>
         </div>
       </nav>

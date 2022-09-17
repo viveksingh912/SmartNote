@@ -11,6 +11,7 @@ import Login from './components/Login';
 import Signup from './components/Signup';
 import {useState} from 'react';
 import AlertState from './context/note/alert/AlertState';
+import UserInfo from './components/UserInfo';
 function App() {
   const [progress, setProgress] = useState(0);
   return (
@@ -30,6 +31,7 @@ function App() {
       <Route path='/about' element={<About setProgress={setProgress}/>} />
       <Route path='/login' element={<Login setProgress={setProgress}/>} />
       <Route path='/signup' element={<Signup setProgress={setProgress}/>} />
+      <Route path='/user' element={<UserInfo />} />
       </Routes>
     </div>
     </BrowserRouter>
