@@ -23,6 +23,7 @@ function Login(props) {
         if (data.success) {
             setAlert('Logged in Successfully');
             console.log(data.name);
+            localStorage.setItem('email',content.email);
             localStorage.setItem('name',data.name);
             localStorage.setItem('token', data.token);
             history('/');
